@@ -1,0 +1,1 @@
+# scryfall-card-collector-frontend
