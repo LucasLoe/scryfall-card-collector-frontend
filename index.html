@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<link rel="stylesheet" href="./src/style.css" />
+		<link rel="stylesheet" href="./src/app-style.css" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Vite + TS</title>
+	</head>
+	<body>
+		<h1>Scryfall API Query Tool</h1>
+		<div id="app">
+			<div class="step-container">
+				<h2 class="to-do-step">1. Upload your data</h2>
+				<textarea id="card-textarea" class=""></textarea>
+				<button id="fetch-btn" class="button-30">Fetch from Scryfall</button>
+			</div>
+
+			<div class="step-container">
+				<h2>Preview your import:</h2>
+				<div id="card-display-div"></div>
+			</div>
+			<div class="step-container">
+				<h2>Fetched Images:</h2>
+				<div id="card-display-div-fetched"></div>
+			</div>
+			<button id="btn--download-zip" class="button-30">Download ZIP file</button>
+		</div>
+		<script type="module" src="/src/main.ts"></script>
+	</body>
+</html>
