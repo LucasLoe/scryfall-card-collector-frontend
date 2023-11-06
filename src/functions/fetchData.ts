@@ -1,4 +1,4 @@
-import fetchFromLocalHost from "../api/fetchFromLocalHost";
+import fetchFromRenderCom from "../api/fetchFromRenderCom";
 import { ServerResponse, UserDataProps } from "../types";
 import renderFetchedCards from "./renderFetchedCards";
 
@@ -8,7 +8,7 @@ export default async function fetchData(
 	callbackOnSuccess?: () => void
 ) {
 	try {
-		const data: ServerResponse = await fetchFromLocalHost(userData.userRequestCardArray);
+		const data: ServerResponse = await fetchFromRenderCom(userData.userRequestCardArray);
 
 		if (data) {
 			data.fetchedCards.forEach((card) => {
