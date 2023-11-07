@@ -5,8 +5,8 @@ import { ApiService } from "./apiService";
 
 export default class Store {
 	private _userData: UserDataProps;
-	private _apiService: ApiService;
-	private _apiUrl;
+	_apiService: ApiService;
+	_apiUrl;
 
 	constructor(apiUrl: apiUrls, userData?: UserDataProps) {
 		console.log(userData);

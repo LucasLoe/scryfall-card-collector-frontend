@@ -5,24 +5,27 @@ import parseCards from "../functions/helpers";
 import ZipService from "./zipService";
 
 export default class Controller {
-	private view: View;
-	private store: Store;
-	private zipService: ZipService;
+	view: View;
+	store: Store;
+	zipService: ZipService;
 
 	constructor(view: View, store: Store) {
 		this.view = view;
 		this.store = store;
 		this.zipService = new ZipService();
 
-		this.view.bindParseInputToUserRequestArray(this.parseInputToUserRequestArray.bind(this));
-		this.view.bindHandleFetchFromScryfall(this.handleFetchDataFromScryfall.bind(this));
-		this.view.bindCreateZipFile(this.createAndDownloadZipFile.bind(this));
-
+		this.bindEvents();
 		this.parseInputToUserRequestArray(this.view.cardTextArea.value);
 	}
 
 	init() {
 		console.log("app initialized");
+	}
+
+	bindEvents() {
+		this.view.bindParseInputToUserRequestArray(this.parseInputToUserRequestArray.bind(this));
+		this.view.bindHandleFetchFromScryfall(this.handleFetchDataFromScryfall.bind(this));
+		this.view.bindCreateZipFile(this.createAndDownloadZipFile.bind(this));
 	}
 
 	handleFetchDataFromScryfall() {
