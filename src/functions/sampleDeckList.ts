@@ -1,4 +1,4 @@
-export default function sampleDeckList() {
+export function sampleDeckList() {
 	return `
     Deck
     1 Go for the Throat
@@ -20,4 +20,12 @@ export default function sampleDeckList() {
     3 Swamp
     4 Forest
     1 Island`;
+}
+
+export function smallSample() {
+	return `
+    1 expressive iteration
+    1 collected company
+    3 Atraxa, Grand Unifier
+    4 Sunfall`;
 }

@@ -1,61 +1,15 @@
-import parseCards from "./functions/parseCards.ts";
-import renderCardPreviews from "./functions/renderCardPreviews.ts";
-import sampleDeckList from "./functions/sampleDeckList.ts";
-import fetchData from "./functions/fetchData.ts";
-import createZipFile from "./functions/createZipFile.ts";
-import {
-	cardTextArea,
-	cardDisplayDiv,
-	cardDisplayDivFetched,
-	fetchBtn,
-	downloadZipBtn,
-} from "./components/elements.ts";
-import initUserData from "./functions/initUserData.ts";
+import View from "./classes/view";
+import Store from "./classes/store";
+import Controller from "./classes/controller";
+import Template from "./classes/template";
+import initUserData from "./functions/initUserData";
+import { apiUrls } from "./types";
 
-/**
- * Initialize app
- */
+const store = new Store(apiUrls.render, initUserData());
+const template = new Template();
+const view = new View(template);
+const controller = new Controller(view, store);
 
-const userData = initUserData();
+console.log("app initialized");
 
-fetchBtn.onclick = () => {
-	userData.userRequestCardArray.length != 0
-		? fetchData(cardDisplayDivFetched, userData, () => setButtonVisibility(downloadZipBtn, "block"))
-		: console.log("user request array has length zero!");
-};
-
-downloadZipBtn.onclick = () => {
-	userData.fetchedData.imageUrls.length != 0
-		? createZipFile({ downloadUrls: userData.fetchedData.pngUrls })
-		: console.log("fetched user data image url array has length zero");
-};
-
-cardTextArea.addEventListener("input", () => {
-	parseInputToUserRequestArray(cardTextArea.value);
-	if (userData.userRequestCardArray.length != 0) {
-		renderCardPreviews(cardDisplayDiv, userData.userRequestCardArray);
-	}
-});
-
-/**
- * Initialize sample data
- */
-
-cardTextArea.value = sampleDeckList();
-parseInputToUserRequestArray(cardTextArea.value);
-
-if (userData.userRequestCardArray.length != 0) {
-	renderCardPreviews(cardDisplayDiv, userData.userRequestCardArray);
-}
-
-function parseInputToUserRequestArray(textAreaContent: string) {
-	const { parsedLinesAsObjects, failedLines } = parseCards(textAreaContent);
-	userData.failedRequestStrings = failedLines;
-	userData.userRequestCardArray = parsedLinesAsObjects;
-}
-
-function setButtonVisibility(btnElement: HTMLButtonElement, visibility: "none" | "block" | "flex") {
-	if (btnElement) {
-		btnElement.style.display = visibility;
-	}
-}
+controller.init();

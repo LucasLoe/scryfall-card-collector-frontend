@@ -9,7 +9,7 @@ export type UserDataProps = {
 	fetchedData: {
 		fetchResponse: ServerResponse | null;
 		imageUrls: string[];
-		pngUrls: string[]
+		pngUrls: string[];
 	};
 };
 
@@ -76,3 +76,12 @@ export type fetchedCardData = {
 	type_line: string;
 	uri: string;
 };
+
+export enum apiUrls {
+	localhost = "http://localhost:8000",
+	render = "https://scryfall-api-node-js.onrender.com",
+}
+
+export enum routes {
+	multipleCards = "/api/search-array",
+}

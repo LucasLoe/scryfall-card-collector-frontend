@@ -81,6 +81,10 @@
 	display: none;
 }
 
+#btn--fetch {
+	display: none;
+}
+
 .button-30 {
 	align-items: center;
 	appearance: none;
