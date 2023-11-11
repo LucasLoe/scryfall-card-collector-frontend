@@ -61,7 +61,6 @@ export class ApiService {
 				{
 					headers: {
 						Accept: "application/json;q=0.9,*/*;q=0.8",
-						"User-Agent": "luc-loe-scryfall-tool/1.1",
 					},
 				}
 			);

@@ -12,15 +12,6 @@ export class PdfService {
 		});
 	}
 
-	loadImageAsync(url: string) {
-		return new Promise((resolve) => {
-			const img = new Image();
-			img.onload = () => resolve(img);
-			img.src = url;
-			return img;
-		});
-	}
-
 	async downloadPdf(filename: string, data: { pngUrl: string; amount: number }[]) {
 		const width = pdfCardSizeInMm.width - pdfCardSizeInMm.padding;
 		const height = pdfCardSizeInMm.height - pdfCardSizeInMm.padding;
@@ -55,8 +46,9 @@ export class PdfService {
 					if (cardIdx < imageUrls.length) {
 						const imageUrl = imageUrls[cardIdx];
 						console.log(imageUrl);
-						await sleep(100);
-						const img = (await this.loadImageAsync(imageUrl)) as HTMLImageElement;
+						await sleep(200);
+						const img = new Image();
+						img.src = imageUrl;
 
 						this.pdf.addImage({
 							imageData: img,
