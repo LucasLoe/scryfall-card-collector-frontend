@@ -7,7 +7,8 @@ export default function initUserData(): UserDataProps {
 		fetchedData: {
 			fetchResponse: null,
 			imageUrls: [],
-			pngUrls: []
+			pngUrls: [],
 		},
+		printData: [],
 	};
 }

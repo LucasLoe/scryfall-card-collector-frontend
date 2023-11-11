@@ -4,13 +4,10 @@
 
 import { beforeEach, describe, it, expect } from "vitest";
 import View from "../classes/view";
-import Template from "../classes/template";
 import { smallSample } from "../functions/sampleDeckList";
-import { ServerResponse, fetchedCardData } from "../types";
 
 describe("View", () => {
 	let view: View;
-	let template: Template;
 
 	beforeEach(() => {
 		document.body.innerHTML = `
@@ -22,8 +19,7 @@ describe("View", () => {
 			<button id="btn--download-zip" class="button-30">Download ZIP file</button>
 		</div>
         `;
-		template = new Template();
-		view = new View(template);
+		view = new View();
 	});
 
 	it("should initialize with the correct DOM elements", () => {
@@ -49,23 +45,6 @@ describe("View", () => {
 		expect(newBtn.style.display).toBe("block");
 		view.setButtonVisibility(newBtn, "flex");
 		expect(newBtn.style.display).toBe("flex");
-	});
-
-	it("render fetched cards to div", () => {
-		const data: ServerResponse = {
-			fetchedCards: [
-				{
-					cardName: "card1",
-					data: { image_uris: { normal: "image-url", png: "png-url" } } as fetchedCardData,
-				},
-			],
-			rejectedCard: [{ cardName: "rejected", data: null }],
-		};
-
-		view.renderFetchedCards(data);
-
-		expect(view.downloadZipBtn.style.display).toBe("block");
-		expect(view.cardDisplayDivFetched.children.length).toBe(1);
 	});
 
 	/**

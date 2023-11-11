@@ -11,21 +11,26 @@
 	<body>
 		<h1>Scryfall API Query Tool</h1>
 		<div id="app">
+			<div class="parse-data-container">
+				<div class="step-container">
+					<h2 class="to-do-step">1. Upload your data</h2>
+					<textarea id="card-textarea" class=""></textarea>
+				</div>
+				<div class="step-container">
+					<h2>2. Preview your import:</h2>
+					<div id="card-display-div"></div>
+				</div>
+			</div>
 			<div class="step-container">
-				<h2 class="to-do-step">1. Upload your data</h2>
-				<textarea id="card-textarea" class=""></textarea>
 				<button id="btn--fetch" class="button-30">Fetch from Scryfall</button>
 			</div>
 
 			<div class="step-container">
-				<h2>Preview your import:</h2>
-				<div id="card-display-div"></div>
-			</div>
-			<div class="step-container">
 				<h2>Fetched Images:</h2>
 				<div id="card-display-div-fetched"></div>
 			</div>
-			<button id="btn--download-zip" class="button-30">Download ZIP file</button>
+			<button id="btn--download-zip" class="button-30">Download images as zip file</button>
+			<button id="btn--download-pdf" class="button-30">Download print-ready pdf file</button>
 		</div>
 		<script defer type="module" src="/src/main.ts"></script>
 	</body>

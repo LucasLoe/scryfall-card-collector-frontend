@@ -8,7 +8,6 @@ export default class ZipService {
 	}
 
 	private async _addImageToZip(url: string, filename: string) {
-		console.log("fired");
 		const response = await fetch(url);
 		const blob = await response.blob();
 		this._zip.file(filename, blob);

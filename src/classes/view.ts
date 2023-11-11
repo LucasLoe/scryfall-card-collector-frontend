@@ -1,6 +1,7 @@
-import { ServerResponse, userCardRequest } from "../types";
+import { PrintedCardVersions, fetchedCardData, userCardRequest } from "../types";
 import Template from "./template";
-import { smallSample } from "../functions/sampleDeckList";
+import Card from "./card";
+import { sampleDeckList } from "../functions/sampleDeckList";
 
 export default class View {
 	app: HTMLDivElement;
@@ -9,14 +10,15 @@ export default class View {
 	cardDisplayDivFetched: HTMLDivElement;
 	fetchBtn: HTMLButtonElement;
 	downloadZipBtn: HTMLButtonElement;
+	downloadPdfBtn: HTMLButtonElement;
 	template: Template;
 
 	/**
 	 * to-do: fix non-null assertions
 	 */
 
-	constructor(template: Template) {
-		this.template = template;
+	constructor() {
+		this.template = new Template();
 		this.app = document.querySelector<HTMLDivElement>("#app")!;
 		this.cardTextArea = document.querySelector<HTMLTextAreaElement>("#card-textarea")!;
 		this.cardDisplayDiv = document.querySelector<HTMLDivElement>("#card-display-div")!;
@@ -25,8 +27,9 @@ export default class View {
 		)!;
 		this.fetchBtn = document.querySelector<HTMLButtonElement>("#btn--fetch")!;
 		this.downloadZipBtn = document.querySelector<HTMLButtonElement>("#btn--download-zip")!;
+		this.downloadPdfBtn = document.querySelector<HTMLButtonElement>("#btn--download-pdf")!;
 
-		this.cardTextArea.value = smallSample();
+		this.cardTextArea.value = sampleDeckList();
 	}
 
 	displayErrorMessage(message: string) {
@@ -42,29 +45,39 @@ export default class View {
 	renderParsedPreview(data: userCardRequest[]) {
 		// clear the container for each render cycle to avoid multiple overlapping entries
 		this.cardDisplayDiv.innerHTML = "";
-
 		data.forEach((card) => {
-			const childNode = this.template.createCardPreviewNode(card);
+			const childNode = this.template.createParsedItem(card);
 			this.cardDisplayDiv.appendChild(childNode);
 		});
 
 		this.setButtonVisibility(this.fetchBtn, "block");
 	}
 
-	renderFetchedCards(data: ServerResponse) {
-		const fetchedCards = data.fetchedCards;
+	renderFetchedCards(
+		fetchedCards: fetchedCardData[],
+		onInitialClick: (
+			data: fetchedCardData,
+			callbackOnSuccess?: (data: PrintedCardVersions) => void
+		) => Promise<PrintedCardVersions | undefined>,
+		onOptionSelect: (oldId: string, data: fetchedCardData) => void
+	) {
 		this.cardDisplayDivFetched.innerHTML = "";
 
-		fetchedCards.forEach((card) => {
-			const childNode = this.template.createCard(card.data);
-			this.cardDisplayDivFetched.appendChild(childNode);
+		fetchedCards.forEach((cardData) => {
+			const card = new Card(cardData, onInitialClick, onOptionSelect);
+			this.cardDisplayDivFetched.appendChild(card.element);
 		});
 
 		this.setButtonVisibility(this.downloadZipBtn, "block");
+		this.setButtonVisibility(this.downloadPdfBtn, "block");
 	}
 
 	bindCreateZipFile(handler: () => void) {
 		this.downloadZipBtn.addEventListener("click", () => handler());
+	}
+
+	bindCreatePdfFile(handler: () => void) {
+		this.downloadPdfBtn.addEventListener("click", () => handler());
 	}
 
 	bindHandleFetchFromScryfall(handler: () => void) {
@@ -73,5 +86,9 @@ export default class View {
 
 	bindParseInputToUserRequestArray(handler: (content: string) => void) {
 		this.cardTextArea.addEventListener("input", () => handler(this.cardTextArea.value));
+	}
+
+	bindVersionSelectHandler(handler: (content: {}) => void, node: HTMLSelectElement) {
+		node.addEventListener("click", () => console.log(handler));
 	}
 }

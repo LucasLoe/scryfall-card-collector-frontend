@@ -2,20 +2,19 @@
 import Store from "../classes/store";
 import initUserData from "../functions/initUserData";
 import { describe, beforeEach, it, expect, vi } from "vitest";
-import { apiUrls, fetchedCardData } from "../types";
+import { fetchedCardData } from "../types";
 
 describe("Store", () => {
 	let store: Store;
 
 	beforeEach(() => {
-		store = new Store(apiUrls.localhost, initUserData());
+		store = new Store(initUserData());
 	});
 
 	describe("constructor", () => {
 		it("should initialize userData and apiService", () => {
 			expect(store.userData).toBeDefined();
 			expect(store._apiService).toBeDefined();
-			expect(store._apiUrl).toEqual("http://localhost:8000");
 		});
 	});
 

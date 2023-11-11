@@ -54,3 +54,14 @@ export function getPngUrlsFromServerResponse(fetchedCardData: fetchedCardData[])
 	});
 	return pngUrls;
 }
+
+export function getDisplayName(card: fetchedCardData) {
+	const setName = card.set;
+	const setNumber = card.collector_number;
+
+	return `${setName} (${setNumber})`;
+}
+
+export function sleep(timeInMilliseconds: number) {
+	return new Promise((resolve) => setTimeout(resolve, timeInMilliseconds));
+}

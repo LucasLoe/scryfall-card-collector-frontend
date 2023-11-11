@@ -11,15 +11,18 @@ export type UserDataProps = {
 		imageUrls: string[];
 		pngUrls: string[];
 	};
+	printData: PrintUserData[];
 };
 
 export type ServerResponse = {
 	fetchedCards: {
 		cardName: string;
+		amount: number;
 		data: fetchedCardData;
 	}[];
 	rejectedCard: {
 		cardName: string;
+		amount: number;
 		data: null;
 	}[];
 };
@@ -77,11 +80,29 @@ export type fetchedCardData = {
 	uri: string;
 };
 
-export enum apiUrls {
-	localhost = "http://localhost:8000",
-	render = "https://scryfall-api-node-js.onrender.com",
-}
+export type PrintUserData = {
+	data: fetchedCardData;
+	amount: number;
+};
+
+export type PrintedCardVersions = {
+	object: string;
+	total_cards: number;
+	has_more: boolean;
+	data: fetchedCardData[];
+};
 
 export enum routes {
 	multipleCards = "/api/search-array",
+}
+
+export enum pdfCardSizeInMm {
+	width = 63,
+	height = 88,
+	padding = 1,
+}
+
+export enum a4SizeInMm {
+	width = 210,
+	height = 297,
 }
