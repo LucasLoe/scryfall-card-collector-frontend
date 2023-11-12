@@ -8,7 +8,6 @@ export default class Store {
 	_apiService: ApiService;
 
 	constructor(userData?: UserDataProps) {
-		console.log(userData);
 		this._userData = userData ? userData : initUserData();
 		this._apiService = new ApiService();
 		this.fetchPrintedVersionsOfCard = this.fetchPrintedVersionsOfCard.bind(this);
@@ -73,7 +72,6 @@ export default class Store {
 		callbackOnSuccess?: (paginationData: PrintedCardVersions) => void
 	) {
 		try {
-			console.log(card.prints_search_uri);
 			const paginationData: PrintedCardVersions = await this._apiService.fetchPrintedVersions(
 				card.prints_search_uri
 			);
@@ -86,5 +84,15 @@ export default class Store {
 		} catch (error) {
 			console.log(`error: ${error} while getting card data`);
 		}
+	}
+
+	flattenedDownloadDataForPdf() {
+		let imageUrls: string[] = [];
+		this.downloadUrls.forEach((item) => {
+			for (let i = 0; i < item.amount; i++) {
+				imageUrls.push(item.pngUrl);
+			}
+		});
+		return imageUrls;
 	}
 }

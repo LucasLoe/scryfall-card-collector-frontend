@@ -28,7 +28,6 @@ describe("View", () => {
 		expect(view.cardDisplayDivFetched).not.toBeNull();
 		expect(view.cardTextArea).not.toBeNull();
 		expect(view.fetchBtn).not.toBeNull();
-		expect(view.downloadZipBtn).not.toBeNull();
 		// only in prototyping stage
 		expect(view.cardTextArea.value).toBe(smallSample());
 	});
@@ -39,11 +38,11 @@ describe("View", () => {
 
 	it("setButtonVisibility", () => {
 		const newBtn = document.createElement("button");
-		view.setButtonVisibility(newBtn, "none");
+		view.setElementVisibility(newBtn, "none");
 		expect(newBtn.style.display).toBe("none");
-		view.setButtonVisibility(newBtn, "block");
+		view.setElementVisibility(newBtn, "block");
 		expect(newBtn.style.display).toBe("block");
-		view.setButtonVisibility(newBtn, "flex");
+		view.setElementVisibility(newBtn, "flex");
 		expect(newBtn.style.display).toBe("flex");
 	});
 

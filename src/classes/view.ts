@@ -9,8 +9,8 @@ export default class View {
 	cardDisplayDiv: HTMLDivElement;
 	cardDisplayDivFetched: HTMLDivElement;
 	fetchBtn: HTMLButtonElement;
-	downloadZipBtn: HTMLButtonElement;
 	downloadPdfBtn: HTMLButtonElement;
+	pdfProgressNode: HTMLParagraphElement;
 	template: Template;
 
 	/**
@@ -19,26 +19,23 @@ export default class View {
 
 	constructor() {
 		this.template = new Template();
-		this.app = document.querySelector<HTMLDivElement>("#app")!;
-		this.cardTextArea = document.querySelector<HTMLTextAreaElement>("#card-textarea")!;
-		this.cardDisplayDiv = document.querySelector<HTMLDivElement>("#card-display-div")!;
-		this.cardDisplayDivFetched = document.querySelector<HTMLDivElement>(
-			"#card-display-div-fetched"
-		)!;
-		this.fetchBtn = document.querySelector<HTMLButtonElement>("#btn--fetch")!;
-		this.downloadZipBtn = document.querySelector<HTMLButtonElement>("#btn--download-zip")!;
-		this.downloadPdfBtn = document.querySelector<HTMLButtonElement>("#btn--download-pdf")!;
-
-		this.cardTextArea.value = sampleDeckList();
+		this.app = document.querySelector("#app")!;
+		this.cardTextArea = document.querySelector("#card-textarea")!;
+		this.cardDisplayDiv = document.querySelector("#card-display-div")!;
+		this.cardDisplayDivFetched = document.querySelector("#card-display-div-fetched")!;
+		this.fetchBtn = document.querySelector("#btn--fetch")!;
+		this.downloadPdfBtn = document.querySelector("#btn--download-pdf")!;
+		this.pdfProgressNode = document.querySelector("#p--status-download-pdf")!;
+		this.cardTextArea.placeholder = sampleDeckList();
 	}
 
 	displayErrorMessage(message: string) {
 		console.log(message);
 	}
 
-	setButtonVisibility(btnElement: HTMLButtonElement, visibility: "none" | "block" | "flex") {
-		if (btnElement) {
-			btnElement.style.display = visibility;
+	setElementVisibility(element: HTMLElement, visibility: "none" | "block" | "flex") {
+		if (element) {
+			element.style.display = visibility;
 		}
 	}
 
@@ -50,7 +47,7 @@ export default class View {
 			this.cardDisplayDiv.appendChild(childNode);
 		});
 
-		this.setButtonVisibility(this.fetchBtn, "block");
+		this.setElementVisibility(this.fetchBtn, "block");
 	}
 
 	renderFetchedCards(
@@ -68,12 +65,12 @@ export default class View {
 			this.cardDisplayDivFetched.appendChild(card.element);
 		});
 
-		this.setButtonVisibility(this.downloadZipBtn, "block");
-		this.setButtonVisibility(this.downloadPdfBtn, "block");
+		this.setElementVisibility(this.downloadPdfBtn, "block");
 	}
 
-	bindCreateZipFile(handler: () => void) {
-		this.downloadZipBtn.addEventListener("click", () => handler());
+	renderPdfProgress(fraction: number) {
+		const progressInPercent = Math.ceil(fraction * 100);
+		this.pdfProgressNode.innerText = `Current progress: ${progressInPercent} %`;
 	}
 
 	bindCreatePdfFile(handler: () => void) {
@@ -86,9 +83,5 @@ export default class View {
 
 	bindParseInputToUserRequestArray(handler: (content: string) => void) {
 		this.cardTextArea.addEventListener("input", () => handler(this.cardTextArea.value));
-	}
-
-	bindVersionSelectHandler(handler: (content: {}) => void, node: HTMLSelectElement) {
-		node.addEventListener("click", () => console.log(handler));
 	}
 }

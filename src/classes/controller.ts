@@ -2,19 +2,16 @@ import View from "./view";
 import Store from "./store";
 import { ServerResponse, fetchedCardData } from "../types";
 import parseCards from "../functions/helpers";
-import ZipService from "./zipService";
 import { PdfService } from "./pdfService";
 
 export default class Controller {
 	view: View;
 	store: Store;
-	zipService: ZipService;
 	pdfService: PdfService;
 
 	constructor(view: View, store: Store) {
 		this.view = view;
 		this.store = store;
-		this.zipService = new ZipService();
 		this.pdfService = new PdfService();
 
 		this.bindEvents();
@@ -28,10 +25,10 @@ export default class Controller {
 	bindEvents() {
 		this.view.bindParseInputToUserRequestArray(this.parseInputToUserRequestArray.bind(this));
 		this.view.bindHandleFetchFromScryfall(this.handleFetchDataFromScryfall.bind(this));
-		this.view.bindCreateZipFile(this.createAndDownloadZipFile.bind(this));
 		this.view.bindCreatePdfFile(this.createAndDownloadPdfFile.bind(this));
 
 		this.handleFetchDataFromScryfall = this.handleFetchDataFromScryfall.bind(this);
+		this.setPdfProgress = this.setPdfProgress.bind(this);
 		this.onOptionSelect = this.onOptionSelect.bind(this);
 	}
 
@@ -50,7 +47,6 @@ export default class Controller {
 
 	onOptionSelect(oldId: string, card: fetchedCardData) {
 		this.store.updatePrintedCardsById(oldId, card);
-		console.log(`refreshed userdata to: ${JSON.stringify(this.store.userData.printData[0])}`);
 	}
 
 	parseInputToUserRequestArray(content: string) {
@@ -63,15 +59,13 @@ export default class Controller {
 		}
 	}
 
-	createAndDownloadZipFile() {
+	createAndDownloadPdfFile() {
 		const filename = `mtg_card_download_${new Date().toISOString()}`;
-		const imageUrls = this.store.downloadUrls.map((elem) => elem.pngUrl);
-		this.zipService.downloadZip(filename, imageUrls);
+		const downloadData = this.store.flattenedDownloadDataForPdf();
+		this.pdfService.downloadPdf(filename, downloadData, this.setPdfProgress);
 	}
 
-	createAndDownloadPdfFile() {
-		console.log("pdf process started");
-		const filename = `mtg_card_download_${new Date().toISOString()}`;
-		this.pdfService.downloadPdf(filename, this.store.downloadUrls);
+	setPdfProgress(fraction: number) {
+		this.view.renderPdfProgress(fraction);
 	}
 }

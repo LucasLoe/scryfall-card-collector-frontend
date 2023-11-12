@@ -45,9 +45,9 @@ export function getImageUrlsFromServerResponse(fetchedCardData: fetchedCardData[
 export function getPngUrlsFromServerResponse(fetchedCardData: fetchedCardData[]) {
 	const pngUrls = fetchedCardData.map((card) => {
 		if ("image_uris" in card && card.image_uris) {
-			return card.image_uris.png;
+			return card.image_uris.normal;
 		} else if ("card_faces" in card && card.card_faces) {
-			return card.card_faces[0].image_uris.png;
+			return card.card_faces[0].image_uris.normal;
 		} else {
 			return "";
 		}

@@ -21,7 +21,6 @@ describe("Controller", () => {
 		it("should initialize with a view and store", () => {
 			expect(controller.view).toBeDefined();
 			expect(controller.store).toBeDefined();
-			expect(controller.zipService).toBeDefined();
 		});
 	});
 });
