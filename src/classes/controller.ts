@@ -34,6 +34,8 @@ export default class Controller {
 
 	handleFetchDataFromScryfall() {
 		if (this.store.isUserRequestArrayNotEmpty()) {
+			this.view.setElementVisibility(this.view.fetchBtn, "none");
+			this.view.setElementVisibility(this.view.fetchMessage, "block");
 			this.store.fetchCards(this.store.userData, (data: ServerResponse) => {
 				const fetchedCardsArray = data.fetchedCards.map((elem) => elem.data);
 				this.view.renderFetchedCards(
@@ -41,6 +43,8 @@ export default class Controller {
 					this.store.fetchPrintedVersionsOfCard,
 					this.onOptionSelect
 				);
+				this.view.setElementVisibility(this.view.fetchBtn, "block");
+				this.view.setElementVisibility(this.view.fetchMessage, "none");
 			});
 		}
 	}
@@ -67,5 +71,6 @@ export default class Controller {
 
 	setPdfProgress(fraction: number) {
 		this.view.renderPdfProgress(fraction);
+		this.view.setElementVisibility(this.view.pdfProgressNode, "block");
 	}
 }

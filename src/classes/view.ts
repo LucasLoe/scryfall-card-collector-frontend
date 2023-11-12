@@ -9,6 +9,7 @@ export default class View {
 	cardDisplayDiv: HTMLDivElement;
 	cardDisplayDivFetched: HTMLDivElement;
 	fetchBtn: HTMLButtonElement;
+	fetchMessage: HTMLParagraphElement;
 	downloadPdfBtn: HTMLButtonElement;
 	pdfProgressNode: HTMLParagraphElement;
 	template: Template;
@@ -24,6 +25,7 @@ export default class View {
 		this.cardDisplayDiv = document.querySelector("#card-display-div")!;
 		this.cardDisplayDivFetched = document.querySelector("#card-display-div-fetched")!;
 		this.fetchBtn = document.querySelector("#btn--fetch")!;
+		this.fetchMessage = document.querySelector("#p--fetch-message")!;
 		this.downloadPdfBtn = document.querySelector("#btn--download-pdf")!;
 		this.pdfProgressNode = document.querySelector("#p--status-download-pdf")!;
 		this.cardTextArea.placeholder = sampleDeckList();

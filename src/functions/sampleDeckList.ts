@@ -1,9 +1,5 @@
 export function sampleDeckList() {
-	return `
-    Accepted format:
-    
-    (lines not in the format [number] [name] will be ignored)
-
+	return `Example:
     1 Go for the Throat
     1 Boseiju, Who Endures
     2 Courier's Briefcase
