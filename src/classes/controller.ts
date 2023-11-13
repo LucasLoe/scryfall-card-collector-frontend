@@ -35,6 +35,7 @@ export default class Controller {
 	handleFetchDataFromScryfall() {
 		if (this.store.isUserRequestArrayNotEmpty()) {
 			this.view.setElementVisibility(this.view.fetchBtn, "none");
+			this.view.setElementVisibility(this.view.loadingSpinner, "inline-block");
 			this.view.setElementVisibility(this.view.fetchMessage, "block");
 			this.store.fetchCards(this.store.userData, (data: ServerResponse) => {
 				const fetchedCardsArray = data.fetchedCards.map((elem) => elem.data);
@@ -44,6 +45,7 @@ export default class Controller {
 					this.onOptionSelect
 				);
 				this.view.setElementVisibility(this.view.fetchBtn, "block");
+				this.view.setElementVisibility(this.view.loadingSpinner, "none");
 				this.view.setElementVisibility(this.view.fetchMessage, "none");
 			});
 		}
@@ -67,10 +69,10 @@ export default class Controller {
 		const filename = `mtg_card_download_${new Date().toISOString()}`;
 		const downloadData = this.store.flattenedDownloadDataForPdf();
 		this.pdfService.downloadPdf(filename, downloadData, this.setPdfProgress);
+		this.view.setElementVisibility(this.view.pdfProgressNode, "block");
 	}
 
 	setPdfProgress(fraction: number) {
 		this.view.renderPdfProgress(fraction);
-		this.view.setElementVisibility(this.view.pdfProgressNode, "block");
 	}
 }

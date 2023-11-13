@@ -12,6 +12,7 @@ export default class View {
 	fetchMessage: HTMLParagraphElement;
 	downloadPdfBtn: HTMLButtonElement;
 	pdfProgressNode: HTMLParagraphElement;
+	loadingSpinner: HTMLDivElement;
 	template: Template;
 
 	/**
@@ -28,6 +29,7 @@ export default class View {
 		this.fetchMessage = document.querySelector("#p--fetch-message")!;
 		this.downloadPdfBtn = document.querySelector("#btn--download-pdf")!;
 		this.pdfProgressNode = document.querySelector("#p--status-download-pdf")!;
+		this.loadingSpinner = document.querySelector("#loading-spinner")!;
 		this.cardTextArea.placeholder = sampleDeckList();
 	}
 
@@ -35,7 +37,7 @@ export default class View {
 		console.log(message);
 	}
 
-	setElementVisibility(element: HTMLElement, visibility: "none" | "block" | "flex") {
+	setElementVisibility(element: HTMLElement, visibility: "none" | "block" | "flex" | "inline-block") {
 		if (element) {
 			element.style.display = visibility;
 		}
